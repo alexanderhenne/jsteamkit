@@ -56,13 +56,9 @@ public abstract class TcpConnection {
 
     private void launchNetThread() {
         netThread = new Thread(() -> {
-            while (true) {
-                if (socket == null
-                        || socket.isClosed()
-                        || !socket.isConnected()) {
-                    break;
-                }
-
+            while (socket != null
+                    && !socket.isClosed()
+                    && socket.isConnected()) {
                 try {
                     if (!reader.reader.isAtEnd()) {
                         readPacket();
