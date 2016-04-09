@@ -2,6 +2,11 @@
 Connecting and logging in
 ```java
 SteamClient steamClient = new SteamClient();
+ /*
+  * Verbosity argument
+  * true = announce when an EMsg is received
+  * false = only announce debug/informational messages
+  */
 steamClient.connect(true);
 
 /* 
