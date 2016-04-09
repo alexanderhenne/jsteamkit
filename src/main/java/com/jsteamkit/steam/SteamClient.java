@@ -63,13 +63,13 @@ public class SteamClient {
             if (keys != null) {
                 connection.sessionKey = CryptoUtil.getRandomBytes(32);
                 try {
-                    byte[] encryptedSessionKey = CryptoUtil.encryptWithRsa(connection.sessionKey, keys[0], keys[1]);
-                    byte[] sessionKeyCrc = CryptoUtil.getCrcHash(encryptedSessionKey);
-
                     MsgHeader replyHeader = new MsgHeader();
                     replyHeader.msg = EMsg.ChannelEncryptResponse;
                     MsgChannelEncryptResponse replyBody = new MsgChannelEncryptResponse();
                     Msg replyMsg = new Msg(replyHeader, replyBody);
+
+                    byte[] encryptedSessionKey = CryptoUtil.encryptWithRsa(connection.sessionKey, keys[0], keys[1]);
+                    byte[] sessionKeyCrc = CryptoUtil.getCrcHash(encryptedSessionKey);
 
                     replyMsg.writer.write(encryptedSessionKey);
                     replyMsg.writer.write(sessionKeyCrc);
@@ -167,7 +167,7 @@ public class SteamClient {
                 Throwables.propagate(e);
             }
 
-            System.out.println("Logged out of Steam. Reason: " + EResult.get(body.getEresult()));
+            System.out.println("Logged out of Steam. Result: " + EResult.get(body.getEresult()));
         });
     }
 
