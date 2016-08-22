@@ -6,6 +6,10 @@ import com.jsteamkit.cm.CMServer;
 import com.jsteamkit.cm.CMServerList;
 import com.jsteamkit.event.EventHandler;
 import com.jsteamkit.event.EventListener;
+import com.jsteamkit.internals.messages.MsgChannelEncryptRequest;
+import com.jsteamkit.internals.messages.MsgChannelEncryptResponse;
+import com.jsteamkit.internals.messages.MsgChannelEncryptResult;
+import com.jsteamkit.internals.net.TcpConnection;
 import com.jsteamkit.internals.proto.SteammessagesBase;
 import com.jsteamkit.internals.proto.SteammessagesClientserver;
 import com.jsteamkit.internals.proto.SteammessagesClientserver2;
@@ -13,15 +17,11 @@ import com.jsteamkit.internals.steamlanguage.EAccountType;
 import com.jsteamkit.internals.steamlanguage.EMsg;
 import com.jsteamkit.internals.steamlanguage.EResult;
 import com.jsteamkit.internals.steamlanguage.EUniverse;
-import com.jsteamkit.internals.steamlanguageinternal.MsgProtoBuf;
 import com.jsteamkit.internals.steamlanguageinternal.Msg;
 import com.jsteamkit.internals.steamlanguageinternal.MsgHeader;
 import com.jsteamkit.internals.steamlanguageinternal.MsgHeaderProtoBuf;
+import com.jsteamkit.internals.steamlanguageinternal.MsgProtoBuf;
 import com.jsteamkit.internals.stream.BinaryReader;
-import com.jsteamkit.internals.messages.MsgChannelEncryptRequest;
-import com.jsteamkit.internals.messages.MsgChannelEncryptResponse;
-import com.jsteamkit.internals.messages.MsgChannelEncryptResult;
-import com.jsteamkit.internals.net.TcpConnection;
 import com.jsteamkit.util.CryptoUtil;
 import com.jsteamkit.util.PublicKeys;
 import com.jsteamkit.util.ZipUtil;
@@ -40,13 +40,11 @@ import java.util.TimerTask;
 
 public class SteamClient {
 
-    public CMServer cmServer = CMServerList.getBestServer();
-    public TcpConnection connection;
+    private TcpConnection connection;
+    private EUniverse connectedUniverse = EUniverse.Invalid;
+    private long steamId;
 
     private Map<EMsg, EventListener> eventListeners = new HashMap<>();
-
-    public EUniverse connectedUniverse = EUniverse.Invalid;
-    public long steamId;
     private Timer heartBeatTimer;
 
     public SteamClient() {
@@ -338,5 +336,17 @@ public class SteamClient {
             eventListeners.put(eventMsg, eventListener);
         }
         eventListener.registerHandler(eventHandler);
+    }
+
+    public TcpConnection getConnection() {
+        return connection;
+    }
+
+    public EUniverse getConnectedUniverse() {
+        return connectedUniverse;
+    }
+
+    public long getSteamId() {
+        return steamId;
     }
 }
