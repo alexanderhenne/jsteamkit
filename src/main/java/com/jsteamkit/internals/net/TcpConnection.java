@@ -30,6 +30,8 @@ public abstract class TcpConnection {
     private BinaryReader reader;
     private BinaryWriter writer;
 
+    private final Object writeLock = new Object();
+
     public byte[] sessionKey;
     public boolean encrypted;
 
@@ -45,7 +47,9 @@ public abstract class TcpConnection {
         socket = new Socket(ip, port);
 
         reader = new BinaryReader(socket.getInputStream());
-        writer = new BinaryWriter(socket.getOutputStream());
+        synchronized (writeLock) {
+            writer = new BinaryWriter(socket.getOutputStream());
+        }
 
         launchNetThread();
     }
@@ -136,10 +140,12 @@ public abstract class TcpConnection {
             data = CryptoUtil.encryptSymmetrically(data, sessionKey);
         }
 
-        writer.write(data.length);
-        writer.write(0x31305456);
-        writer.write(data);
-        writer.flush();
+        synchronized (writeLock) {
+            writer.write(data.length);
+            writer.write(0x31305456);
+            writer.write(data);
+            writer.flush();
+        }
     }
 
     public void disconnect() throws IOException {
