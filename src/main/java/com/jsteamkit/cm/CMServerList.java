@@ -13,41 +13,54 @@ public class CMServerList {
     private static List<InitialCMServer> list = new ArrayList<>();
     static {
         // Stockholm, Sweden
+        list.add(new InitialCMServer("185.25.180.14", 27017));
+        list.add(new InitialCMServer("185.25.180.14", 27019));
+
         list.add(new InitialCMServer("185.25.180.15", 27017));
         list.add(new InitialCMServer("185.25.180.15", 27018));
         list.add(new InitialCMServer("185.25.180.15", 27019));
-        list.add(new InitialCMServer("185.25.180.15", 27020));
+
+        // Frankfurt, Germany
+        list.add(new InitialCMServer("162.254.197.41", 27017));
+        list.add(new InitialCMServer("162.254.197.41", 27018));
+        list.add(new InitialCMServer("162.254.197.41", 27019));
+        list.add(new InitialCMServer("162.254.197.41", 27020));
+        list.add(new InitialCMServer("162.254.197.41", 27021));
 
         // London, UK
         list.add(new InitialCMServer("162.254.196.40", 27017));
         list.add(new InitialCMServer("162.254.196.40", 27018));
         list.add(new InitialCMServer("162.254.196.40", 27019));
-        list.add(new InitialCMServer("162.254.196.40", 27020));
-        list.add(new InitialCMServer("162.254.196.40", 27021));
 
         list.add(new InitialCMServer("162.254.196.41", 27017));
         list.add(new InitialCMServer("162.254.196.41", 27018));
         list.add(new InitialCMServer("162.254.196.41", 27019));
-        list.add(new InitialCMServer("162.254.196.41", 27020));
-        list.add(new InitialCMServer("162.254.196.41", 27021));
+
+        // Poland
+        list.add(new InitialCMServer("155.133.242.8", 27017));
+        list.add(new InitialCMServer("155.133.242.8", 27018));
+        list.add(new InitialCMServer("155.133.242.8", 27019));
+
+        // Vienna, Austria
+        list.add(new InitialCMServer("146.66.155.8", 27017));
+        list.add(new InitialCMServer("146.66.155.8", 27018));
+        list.add(new InitialCMServer("146.66.155.8", 27019));
+        list.add(new InitialCMServer("146.66.155.8", 27020));
 
         // Chicago, USA
-        list.add(new InitialCMServer("162.254.196.42", 27017));
-        list.add(new InitialCMServer("162.254.196.42", 27018));
-        list.add(new InitialCMServer("162.254.196.42", 27019));
-        list.add(new InitialCMServer("162.254.196.42", 27020));
-        list.add(new InitialCMServer("162.254.196.42", 27021));
-
         list.add(new InitialCMServer("162.254.193.44", 27018));
         list.add(new InitialCMServer("162.254.193.44", 27019));
         list.add(new InitialCMServer("162.254.193.44", 27020));
-        list.add(new InitialCMServer("162.254.193.44", 27021));
 
         list.add(new InitialCMServer("162.254.193.45", 27017));
         list.add(new InitialCMServer("162.254.193.45", 27018));
-        list.add(new InitialCMServer("162.254.193.45", 27019));
-        list.add(new InitialCMServer("162.254.193.45", 27020));
-        list.add(new InitialCMServer("162.254.193.45", 27021));
+
+        // Virginia, USA
+        list.add(new InitialCMServer("208.78.164.10", 27018));
+        list.add(new InitialCMServer("208.78.164.10", 27019));
+
+        list.add(new InitialCMServer("208.78.164.14", 27017));
+        list.add(new InitialCMServer("208.78.164.14", 27018));
 
         // Remove servers that appear to be down
         for (Iterator<InitialCMServer> iterator = list.iterator(); iterator.hasNext();) {
