@@ -4,9 +4,9 @@ import com.google.common.base.Throwables;
 import com.jsteamkit.cm.CMServer;
 import com.jsteamkit.internals.steamlanguage.EMsg;
 import com.jsteamkit.internals.steamlanguageinternal.ExtendedMsgHeaderProtoBuf;
-import com.jsteamkit.internals.steamlanguageinternal.SerializableMsg;
 import com.jsteamkit.internals.steamlanguageinternal.MsgHeader;
 import com.jsteamkit.internals.steamlanguageinternal.MsgHeaderProtoBuf;
+import com.jsteamkit.internals.steamlanguageinternal.SerializableMsg;
 import com.jsteamkit.internals.stream.BinaryReader;
 import com.jsteamkit.internals.stream.BinaryWriter;
 import com.jsteamkit.util.CryptoUtil;
@@ -25,8 +25,6 @@ import java.text.MessageFormat;
 
 public abstract class TcpConnection {
 
-    private boolean verbose;
-
     private Socket socket;
     private Thread netThread;
     private BinaryReader reader;
@@ -35,23 +33,21 @@ public abstract class TcpConnection {
     public byte[] sessionKey;
     public boolean encrypted;
 
-    public TcpConnection(boolean verbose) {
-        this.verbose = verbose;
+    public void connect(CMServer server) throws IOException {
+        connect(server.ip, server.port);
     }
 
-    public void connect(CMServer server) throws IOException {
+    public void connect(String ip, int port) throws IOException {
         if (socket != null) {
             disconnect();
         }
 
-        socket = new Socket(server.ip, server.port);
+        socket = new Socket(ip, port);
 
-        if (socket.isConnected()) {
-            reader = new BinaryReader(socket.getInputStream());
-            writer = new BinaryWriter(socket.getOutputStream());
+        reader = new BinaryReader(socket.getInputStream());
+        writer = new BinaryWriter(socket.getOutputStream());
 
-            launchNetThread();
-        }
+        launchNetThread();
     }
 
     private void launchNetThread() {
@@ -123,10 +119,6 @@ public abstract class TcpConnection {
                 header.decode(new BinaryReader(data));
             } catch (IOException e) {
                 Throwables.propagate(e);
-            }
-
-            if (verbose) {
-                System.out.println("Received msg: " + eMsg);
             }
 
             handleEvent(eMsg, data);

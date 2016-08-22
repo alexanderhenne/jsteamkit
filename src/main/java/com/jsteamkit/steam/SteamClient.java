@@ -200,16 +200,29 @@ public class SteamClient {
         });
     }
 
-    public void connect(boolean verbose) throws IOException {
-        connection = new TcpConnection(verbose) {
+    public void connect(boolean verbose)
+            throws IOException {
+
+        connect(verbose, CMServerList.getBestServer());
+    }
+
+    public void connect(boolean verbose, CMServer cmServer)
+            throws IOException {
+
+        connection = new TcpConnection() {
             @Override
             public void handleEvent(EMsg eventMsg, byte[] data) {
+                if (verbose) {
+                    System.out.println("Received msg: " + eventMsg);
+                }
+
                 EventListener eventListener = eventListeners.get(eventMsg);
                 if (eventListener != null) {
                     eventListener.runHandlers(data);
                 }
             }
         };
+
         connection.connect(cmServer);
     }
 
