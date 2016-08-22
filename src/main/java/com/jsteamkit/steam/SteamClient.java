@@ -35,6 +35,8 @@ import java.security.GeneralSecurityException;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SteamClient {
 
@@ -45,6 +47,7 @@ public class SteamClient {
 
     public EUniverse connectedUniverse = EUniverse.Invalid;
     public long steamId;
+    private Timer heartBeatTimer;
 
     public SteamClient() {
         this.registerEventHandler(EMsg.ChannelEncryptRequest, (d) -> {
@@ -151,6 +154,27 @@ public class SteamClient {
             if (result == EResult.OK) {
                 steamId = header.proto.getSteamid();
 
+                heartBeatTimer = new Timer();
+                heartBeatTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        try {
+                            SteammessagesBase.CMsgProtoBufHeader.Builder proto
+                                    = SteammessagesBase.CMsgProtoBufHeader.newBuilder();
+                            MsgHeaderProtoBuf header = new MsgHeaderProtoBuf(proto);
+                            header.msg = EMsg.ClientHeartBeat;
+                            SteammessagesClientserver.CMsgClientHeartBeat.Builder body
+                                    = SteammessagesClientserver.CMsgClientHeartBeat.newBuilder();
+                            MsgProtoBuf msg = new MsgProtoBuf(header, body);
+
+                            byte[] encodedMsg = msg.encode();
+                            connection.sendPacket(encodedMsg);
+                        } catch (IOException | GeneralSecurityException e) {
+                            Throwables.propagate(e);
+                        }
+                    }
+                }, 0, body.getOutOfGameHeartbeatSeconds() * 1000);
+
                 System.out.println("Successfully logged in. Steam ID: " + steamId);
             } else {
                 System.out.println("Failed login. Result: " + result);
@@ -165,6 +189,11 @@ public class SteamClient {
                 new MsgProtoBuf(header, body).decode(d);
             } catch (IOException e) {
                 Throwables.propagate(e);
+            }
+
+            if (heartBeatTimer != null) {
+                heartBeatTimer.cancel();
+                heartBeatTimer = null;
             }
 
             System.out.println("Logged out of Steam. Result: " + EResult.get(body.getEresult()));
