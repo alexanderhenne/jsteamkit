@@ -7,12 +7,11 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 public class BinaryReader {
 
     public CodedInputStream reader;
-    int len = 0;
+    private int length = 0;
 
     public BinaryReader(InputStream stream) {
         reader = CodedInputStream.newInstance(stream);
@@ -20,9 +19,9 @@ public class BinaryReader {
 
     public BinaryReader(byte[] data) {
         reader = CodedInputStream.newInstance(data);
-        len = data.length;
+        length = data.length;
         try {
-            reader.pushLimit(len);
+            reader.pushLimit(length);
         } catch (InvalidProtocolBufferException e) {
             Throwables.propagate(e);
         }
@@ -30,10 +29,10 @@ public class BinaryReader {
 
 
     public String readString() throws IOException {
-        byte[] buffer = new byte[len];
+        byte[] buffer = new byte[length];
         int i = 0;
         byte rb;
-        while (i < len) {
+        while (i < length) {
             if ((rb = reader.readRawByte()) != 0) {
                 buffer[i++] = rb;
             } else {
@@ -80,7 +79,7 @@ public class BinaryReader {
     }
 
     public int getRemaining() {
-        return len - getPosition();
+        return length - getPosition();
     }
 
     private ByteBuffer getBuffer(int len) throws IOException {
