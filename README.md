@@ -1,4 +1,6 @@
 # JSteamKit
+### The library requires the use of JCE Unlimited Strength Jurisdiction Policy Files
+
 Connecting and logging in
 ```java
 SteamClient steamClient = new SteamClient();
@@ -46,5 +48,3 @@ Automatically used in the project through Gradle:
 * [Protocol Buffers](https://github.com/google/protobuf/tree/master/java)
 * [Google Guava](https://github.com/google/guava)
 * [BouncyCastle Provider](http://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on)
-
-The project includes Java 8 code. 
