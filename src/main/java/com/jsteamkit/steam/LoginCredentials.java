@@ -8,6 +8,8 @@ public class LoginCredentials {
 
     public String authCode = "";
 
+    public String authenticatorSecret = "";
+
     public boolean acceptSentry = true;
 
     /**

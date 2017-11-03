@@ -22,6 +22,7 @@ import com.jsteamkit.internals.steamlanguageinternal.MsgHeader;
 import com.jsteamkit.internals.steamlanguageinternal.MsgHeaderProtoBuf;
 import com.jsteamkit.internals.steamlanguageinternal.MsgProtoBuf;
 import com.jsteamkit.internals.stream.BinaryReader;
+import com.jsteamkit.steam.guard.SteamAuthenticator;
 import com.jsteamkit.util.CryptoUtil;
 import com.jsteamkit.util.PublicKeys;
 import com.jsteamkit.util.ZipUtil;
@@ -244,6 +245,11 @@ public class SteamClient {
 
                 if (credentials.authCode.length() > 0) {
                     body.setAuthCode(credentials.authCode);
+                }
+
+                if (credentials.authenticatorSecret.length() > 0) {
+                    SteamAuthenticator authenticator = new SteamAuthenticator(credentials.authenticatorSecret);
+                    body.setTwoFactorCode(authenticator.generateCode());
                 }
 
                 if (credentials.acceptSentry) {
