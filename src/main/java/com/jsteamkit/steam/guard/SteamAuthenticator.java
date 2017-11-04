@@ -1,11 +1,10 @@
 package com.jsteamkit.steam.guard;
 
-import com.google.common.io.BaseEncoding;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 public class SteamAuthenticator {
 
@@ -31,7 +30,7 @@ public class SteamAuthenticator {
             throw new IllegalStateException("You need to supply a sharedSecret");
         }
 
-        byte[] sharedSecretArray = BaseEncoding.base64().decode(sharedSecret);
+        byte[] sharedSecretArray = Base64.getDecoder().decode(sharedSecret);
         byte[] timeArray = new byte[8];
 
         time /= 30L;
