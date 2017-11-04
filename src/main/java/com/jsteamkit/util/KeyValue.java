@@ -44,6 +44,9 @@ public class KeyValue {
                 case Float32:
                     current.value = reader.readFloat() + "";
                     break;
+                case Int64:
+                    current.value = reader.readLong() + "";
+                    break;
                 default:
                     throw new IOException("Unknown KeyValue type");
             }
@@ -73,7 +76,8 @@ public class KeyValue {
         WideString(5),
         Color(6),
         UInt64(7),
-        End(8);
+        End(8),
+        Int64(10);
 
         private byte code;
 
@@ -85,7 +89,7 @@ public class KeyValue {
             return code;
         }
 
-        private static Type[] values = new Type[9];
+        private static Type[] values = new Type[11];
         static {
             for (Type keyValueType : Type.values()) {
                 values[keyValueType.code] = keyValueType;
