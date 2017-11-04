@@ -11,8 +11,8 @@ import com.jsteamkit.internals.messages.MsgChannelEncryptResponse;
 import com.jsteamkit.internals.messages.MsgChannelEncryptResult;
 import com.jsteamkit.internals.net.TcpConnection;
 import com.jsteamkit.internals.proto.SteammessagesBase;
-import com.jsteamkit.internals.proto.SteammessagesClientserver;
 import com.jsteamkit.internals.proto.SteammessagesClientserver2;
+import com.jsteamkit.internals.proto.SteammessagesClientserverLogin;
 import com.jsteamkit.internals.steamlanguage.EAccountType;
 import com.jsteamkit.internals.steamlanguage.EMsg;
 import com.jsteamkit.internals.steamlanguage.EResult;
@@ -141,8 +141,8 @@ public class SteamClient {
 
         this.registerEventHandler(EMsg.ClientLogOnResponse, (d) -> {
             MsgHeaderProtoBuf header = new MsgHeaderProtoBuf();
-            SteammessagesClientserver.CMsgClientLogonResponse.Builder body
-                    = SteammessagesClientserver.CMsgClientLogonResponse.newBuilder();
+            SteammessagesClientserverLogin.CMsgClientLogonResponse.Builder body
+                    = SteammessagesClientserverLogin.CMsgClientLogonResponse.newBuilder();
             try {
                 new MsgProtoBuf(header, body).decode(d);
             } catch (IOException e) {
@@ -162,8 +162,8 @@ public class SteamClient {
                                     = SteammessagesBase.CMsgProtoBufHeader.newBuilder();
                             MsgHeaderProtoBuf header = new MsgHeaderProtoBuf(proto);
                             header.msg = EMsg.ClientHeartBeat;
-                            SteammessagesClientserver.CMsgClientHeartBeat.Builder body
-                                    = SteammessagesClientserver.CMsgClientHeartBeat.newBuilder();
+                            SteammessagesClientserverLogin.CMsgClientHeartBeat.Builder body
+                                    = SteammessagesClientserverLogin.CMsgClientHeartBeat.newBuilder();
                             MsgProtoBuf msg = new MsgProtoBuf(header, body);
 
                             byte[] encodedMsg = msg.encode();
@@ -182,8 +182,8 @@ public class SteamClient {
 
         this.registerEventHandler(EMsg.ClientLoggedOff, (d) -> {
             MsgHeaderProtoBuf header = new MsgHeaderProtoBuf();
-            SteammessagesClientserver.CMsgClientLoggedOff.Builder body
-                    = SteammessagesClientserver.CMsgClientLoggedOff.newBuilder();
+            SteammessagesClientserverLogin.CMsgClientLoggedOff.Builder body
+                    = SteammessagesClientserverLogin.CMsgClientLoggedOff.newBuilder();
             try {
                 new MsgProtoBuf(header, body).decode(d);
             } catch (IOException e) {
@@ -233,8 +233,8 @@ public class SteamClient {
                         = SteammessagesBase.CMsgProtoBufHeader.newBuilder();
                 MsgHeaderProtoBuf header = new MsgHeaderProtoBuf(proto);
                 header.msg = EMsg.ClientLogon;
-                SteammessagesClientserver.CMsgClientLogon.Builder body
-                        = SteammessagesClientserver.CMsgClientLogon.newBuilder();
+                SteammessagesClientserverLogin.CMsgClientLogon.Builder body
+                        = SteammessagesClientserverLogin.CMsgClientLogon.newBuilder();
                 MsgProtoBuf msg = new MsgProtoBuf(header, body);
 
                 proto.setSteamid(new SteamId(0, credentials.accountInstance, connectedUniverse, EAccountType.Individual).toLong());

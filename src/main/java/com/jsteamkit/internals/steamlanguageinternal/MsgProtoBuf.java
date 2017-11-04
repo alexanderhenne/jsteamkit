@@ -1,6 +1,6 @@
 package com.jsteamkit.internals.steamlanguageinternal;
 
-import com.google.protobuf.GeneratedMessage;
+import com.google.protobuf.GeneratedMessageV3;
 import com.jsteamkit.internals.stream.BinaryReader;
 import com.jsteamkit.internals.stream.BinaryWriter;
 
@@ -11,12 +11,12 @@ import java.util.Arrays;
 public class MsgProtoBuf {
 
     public MsgHeaderProtoBuf header;
-    public GeneratedMessage.Builder body;
+    public GeneratedMessageV3.Builder body;
     public BinaryReader reader;
 
     public int headerLen = 0;
 
-    public MsgProtoBuf(MsgHeaderProtoBuf header, GeneratedMessage.Builder body) {
+    public MsgProtoBuf(MsgHeaderProtoBuf header, GeneratedMessageV3.Builder body) {
         this.header = header;
         this.body = body;
     }

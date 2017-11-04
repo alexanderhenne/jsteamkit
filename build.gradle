@@ -7,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.protobuf:protobuf-java:2.6.1'
+    compile 'com.google.protobuf:protobuf-java:3.4.0'
     compile 'com.google.guava:guava:19.0'
     compile 'org.bouncycastle:bcprov-jdk15on:1.54'
     compile 'com.google.code.gson:gson:2.8.2'
