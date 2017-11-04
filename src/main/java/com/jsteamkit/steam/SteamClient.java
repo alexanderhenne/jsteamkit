@@ -253,7 +253,7 @@ public class SteamClient {
                 }
 
                 if (credentials.acceptSentry) {
-                    Path sentryFile = Paths.get("sentry.bin");
+                    Path sentryFile = Paths.get("data/sentry.bin");
                     if (sentryFile.toFile().exists()) {
                         byte[] sentryBytes = Files.readAllBytes(sentryFile);
                         byte[] shaHash = CryptoUtil.shaHash(sentryBytes);
@@ -290,9 +290,10 @@ public class SteamClient {
                 Throwables.propagate(e);
             }
 
-            Path sentryFile = Paths.get("sentry.bin");
+            Path sentryFile = Paths.get("data/sentry.bin");
             byte[] sentryBytes = body.getBytes().toByteArray();
             try {
+                Files.createDirectories(sentryFile.getParent());
                 Files.write(sentryFile, sentryBytes);
             } catch (IOException e) {
                 Throwables.propagate(e);
