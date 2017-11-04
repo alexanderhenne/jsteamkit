@@ -1,5 +1,8 @@
 package com.jsteamkit.internals.steamlanguage;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum EResult {
 
     Invalid(0),
@@ -87,17 +90,14 @@ public enum EResult {
         return code;
     }
 
-    private static EResult[] values = new EResult[75];
+    private static Map<Integer, EResult> values = new HashMap<>();
     static {
         for (EResult eResult : EResult.values()) {
-            values[eResult.code] = eResult;
+            values.put(eResult.code, eResult);
         }
     }
 
     public static EResult get(int code) {
-        if (code < values.length) {
-            return values[code];
-        }
-        return null;
+        return values.get(code);
     }
 }

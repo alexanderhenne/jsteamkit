@@ -1,5 +1,8 @@
 package com.jsteamkit.internals.steamlanguage;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum EAccountType {
 
     Invalid(0),
@@ -25,17 +28,14 @@ public enum EAccountType {
         return code;
     }
 
-    private static EAccountType[] values = new EAccountType[12];
+    private static Map<Integer, EAccountType> values = new HashMap<>();
     static {
         for (EAccountType eAccountType : EAccountType.values()) {
-            values[eAccountType.code] = eAccountType;
+            values.put(eAccountType.code, eAccountType);
         }
     }
 
     public static EAccountType get(int code) {
-        if (code < values.length) {
-            return values[code];
-        }
-        return null;
+        return values.get(code);
     }
 }

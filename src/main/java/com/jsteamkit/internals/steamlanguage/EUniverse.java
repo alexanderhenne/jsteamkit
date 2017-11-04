@@ -1,5 +1,8 @@
 package com.jsteamkit.internals.steamlanguage;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum  EUniverse {
 
     Invalid(0),
@@ -20,14 +23,14 @@ public enum  EUniverse {
         return code;
     }
 
-    private static EUniverse[] values = new EUniverse[7];
+    private static Map<Integer, EUniverse> values = new HashMap<>();
     static {
         for (EUniverse eUniverse : EUniverse.values()) {
-            values[eUniverse.code] = eUniverse;
+            values.put(eUniverse.code, eUniverse);
         }
     }
 
     public static EUniverse get(int code) {
-        return values[code];
+        return values.get(code);
     }
 }

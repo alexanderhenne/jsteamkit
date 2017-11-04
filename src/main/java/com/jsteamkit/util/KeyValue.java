@@ -4,7 +4,9 @@ import com.jsteamkit.internals.stream.BinaryReader;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class KeyValue {
 
@@ -89,18 +91,15 @@ public class KeyValue {
             return code;
         }
 
-        private static Type[] values = new Type[11];
+        private static Map<Byte, Type> values = new HashMap<>();
         static {
             for (Type keyValueType : Type.values()) {
-                values[keyValueType.code] = keyValueType;
+                values.put(keyValueType.code, keyValueType);
             }
         }
 
-        public static Type get(int code) {
-            if (code < values.length) {
-                return values[code];
-            }
-            return null;
+        public static Type get(byte code) {
+            return values.get(code);
         }
     }
 }

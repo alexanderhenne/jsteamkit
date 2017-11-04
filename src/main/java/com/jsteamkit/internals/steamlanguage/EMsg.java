@@ -1,5 +1,8 @@
 package com.jsteamkit.internals.steamlanguage;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum EMsg {
 
     Invalid(0),
@@ -1282,18 +1285,15 @@ public enum EMsg {
         return code;
     }
 
-    private static EMsg[] values = new EMsg[8513];
+    private static Map<Integer, EMsg> values = new HashMap<>();
     static {
         for (EMsg eMsg : EMsg.values()) {
-            values[eMsg.code] = eMsg;
+            values.put(eMsg.code, eMsg);
         }
     }
 
     public static EMsg get(int code) {
-        if (code < values.length) {
-            return values[code];
-        }
-        return null;
+        return values.get(code);
     }
 }
 
