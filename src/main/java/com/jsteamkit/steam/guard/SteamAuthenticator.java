@@ -1,3 +1,6 @@
+/*
+ * Ported from https://github.com/geel9/SteamAuth/blob/master/SteamAuth/SteamGuardAccount.cs
+ */
 package com.jsteamkit.steam.guard;
 
 import javax.crypto.Mac;
