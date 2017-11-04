@@ -1,6 +1,5 @@
 package com.jsteamkit.internals.net;
 
-import com.google.common.base.Throwables;
 import com.jsteamkit.cm.CMServer;
 import com.jsteamkit.internals.steamlanguage.EMsg;
 import com.jsteamkit.internals.steamlanguageinternal.ExtendedMsgHeaderProtoBuf;
@@ -64,7 +63,7 @@ public abstract class TcpConnection {
                         readPacket();
                     }
                 } catch (IOException | IllegalStateException e) {
-                    throw Throwables.propagate(e);
+                    throw new RuntimeException(e);
                 }
             }
         });
@@ -92,7 +91,7 @@ public abstract class TcpConnection {
             try {
                 data = CryptoUtil.decryptSymmetrically(data, sessionKey);
             } catch (GeneralSecurityException e) {
-                Throwables.propagate(e);
+                throw new RuntimeException(e);
             }
         }
 
@@ -122,7 +121,7 @@ public abstract class TcpConnection {
             try {
                 header.decode(new BinaryReader(data));
             } catch (IOException e) {
-                Throwables.propagate(e);
+                throw new RuntimeException(e);
             }
 
             handleEvent(eMsg, data);
@@ -158,7 +157,7 @@ public abstract class TcpConnection {
                 netThread.join();
                 netThread = null;
             } catch (InterruptedException e) {
-                Throwables.propagate(e);
+                throw new RuntimeException(e);
             }
         }
     }

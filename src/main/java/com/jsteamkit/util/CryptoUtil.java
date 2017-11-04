@@ -1,6 +1,5 @@
 package com.jsteamkit.util;
 
-import com.google.common.base.Throwables;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import javax.crypto.BadPaddingException;
@@ -25,9 +24,8 @@ public class CryptoUtil {
         try {
             return MessageDigest.getInstance("SHA-1").digest(data);
         } catch (NoSuchAlgorithmException e) {
-            Throwables.propagate(e);
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     public static byte[] encryptWithRsa(byte[] data, BigInteger modulus, BigInteger exponent)

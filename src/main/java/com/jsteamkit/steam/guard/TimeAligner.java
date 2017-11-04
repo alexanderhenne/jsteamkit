@@ -3,7 +3,6 @@
  */
 package com.jsteamkit.steam.guard;
 
-import com.google.common.base.Throwables;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -55,7 +54,7 @@ public class TimeAligner {
                 aligned = true;
             }
         } catch (IOException e) {
-            Throwables.propagate(e);
+            throw new RuntimeException(e);
         }
     }
 

@@ -1,6 +1,5 @@
 package com.jsteamkit.internals.stream;
 
-import com.google.common.base.Throwables;
 import com.google.protobuf.CodedOutputStream;
 
 import java.io.ByteArrayOutputStream;
@@ -79,7 +78,7 @@ public class BinaryWriter {
         try {
             outputStream.flush();
         } catch (IOException e) {
-            Throwables.propagate(e);
+            throw new RuntimeException(e);
         }
     }
 }

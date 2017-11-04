@@ -1,6 +1,5 @@
 package com.jsteamkit.internals.stream;
 
-import com.google.common.base.Throwables;
 import com.google.protobuf.CodedInputStream;
 import com.google.protobuf.InvalidProtocolBufferException;
 
@@ -23,7 +22,7 @@ public class BinaryReader {
         try {
             reader.pushLimit(length);
         } catch (InvalidProtocolBufferException e) {
-            Throwables.propagate(e);
+            throw new RuntimeException(e);
         }
     }
 

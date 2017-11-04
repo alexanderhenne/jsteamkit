@@ -1,6 +1,5 @@
 package com.jsteamkit.steam;
 
-import com.google.common.base.Throwables;
 import com.google.protobuf.ByteString;
 import com.jsteamkit.cm.CMServer;
 import com.jsteamkit.cm.CMServerList;
@@ -54,7 +53,7 @@ public class SteamClient {
             try {
                 new Msg(new MsgHeader(), body).decode(d);
             } catch (IOException e) {
-                Throwables.propagate(e);
+                throw new RuntimeException(e);
             }
 
             System.out.println(MessageFormat.format("Received encryption request. Universe: {0}, Protocol version: {1}",
@@ -80,7 +79,7 @@ public class SteamClient {
                     byte[] encodedMsg = replyMsg.encode();
                     connection.sendPacket(encodedMsg);
                 } catch (IOException | GeneralSecurityException e) {
-                    Throwables.propagate(e);
+                    throw new RuntimeException(e);
                 }
             } else {
                 System.out.println("Universe " + body.universe + " is not supported!");
@@ -92,7 +91,7 @@ public class SteamClient {
             try {
                 new Msg(new MsgHeader(), body).decode(d);
             } catch (IOException e) {
-                Throwables.propagate(e);
+                throw new RuntimeException(e);
             }
 
             System.out.println(MessageFormat.format("Received encryption result. Result: {0}",
@@ -114,7 +113,7 @@ public class SteamClient {
             try {
                 new MsgProtoBuf(header, body).decode(d);
             } catch (IOException e) {
-                Throwables.propagate(e);
+                throw new RuntimeException(e);
             }
 
             byte[] payload = body.getMessageBody().toByteArray();
@@ -123,7 +122,7 @@ public class SteamClient {
                 try {
                     payload = ZipUtil.unzip(payload);
                 } catch (IOException e) {
-                    Throwables.propagate(e);
+                    throw new RuntimeException(e);
                 }
             }
 
@@ -135,7 +134,7 @@ public class SteamClient {
                     connection.handleMsg(data);
                 }
             } catch (IOException e) {
-                Throwables.propagate(e);
+                throw new RuntimeException(e);
             }
         });
 
@@ -146,7 +145,7 @@ public class SteamClient {
             try {
                 new MsgProtoBuf(header, body).decode(d);
             } catch (IOException e) {
-                Throwables.propagate(e);
+                throw new RuntimeException(e);
             }
 
             EResult result = EResult.get(body.getEresult());
@@ -169,7 +168,7 @@ public class SteamClient {
                             byte[] encodedMsg = msg.encode();
                             connection.sendPacket(encodedMsg);
                         } catch (IOException | GeneralSecurityException e) {
-                            Throwables.propagate(e);
+                            throw new RuntimeException(e);
                         }
                     }
                 }, 0, body.getOutOfGameHeartbeatSeconds() * 1000);
@@ -187,7 +186,7 @@ public class SteamClient {
             try {
                 new MsgProtoBuf(header, body).decode(d);
             } catch (IOException e) {
-                Throwables.propagate(e);
+                throw new RuntimeException(e);
             }
 
             if (heartBeatTimer != null) {
@@ -272,7 +271,7 @@ public class SteamClient {
                 byte[] encodedMsg = msg.encode();
                 connection.sendPacket(encodedMsg);
             } catch (IOException | GeneralSecurityException e) {
-                Throwables.propagate(e);
+                throw new RuntimeException(e);
             }
         } else {
             System.out.println("A username and password must be specified in order to login.");
@@ -287,7 +286,7 @@ public class SteamClient {
             try {
                 new MsgProtoBuf(header, body).decode(d);
             } catch (IOException e) {
-                Throwables.propagate(e);
+                throw new RuntimeException(e);
             }
 
             Path sentryFile = Paths.get("data/sentry.bin");
@@ -296,7 +295,7 @@ public class SteamClient {
                 Files.createDirectories(sentryFile.getParent());
                 Files.write(sentryFile, sentryBytes);
             } catch (IOException e) {
-                Throwables.propagate(e);
+                throw new RuntimeException(e);
             }
 
             SteammessagesBase.CMsgProtoBufHeader.Builder proto
@@ -331,7 +330,7 @@ public class SteamClient {
 
                 System.out.println("Successfully updated sentry file for machine authentication.");
             } catch (IOException | GeneralSecurityException e) {
-                Throwables.propagate(e);
+                throw new RuntimeException(e);
             }
         });
     }
